@@ -8,7 +8,7 @@ todoBtn.addEventListener("click", clickBtn);
 
 function clickBtn(e) {
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo');
     const newTodo =
@@ -71,17 +71,21 @@ function filterTodoFunc(e) {
     });
 }
 
+//localStorage
+
 function saveLocalTodo(todo) {
     let savedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
     savedTodos.push(todo);
+    console.log(savedTodos);
     localStorage.setItem('todos', JSON.stringify(savedTodos));
 }
 
 function getLocalTodo() {
     let savedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
-    savedTodos.foreach((todo) => {
+    savedTodos.forEach((todo) => {
         const todoDiv = document.createElement('div');
         todoDiv.classList.add('todo');
+        console.log(todo);
         const newTodo =
             `<li>${todo}</li>
             <span>
