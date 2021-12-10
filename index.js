@@ -1,6 +1,8 @@
 const todoInput = document.querySelector('.todo-input');
 const todoBtn = document.querySelector('.todo-btn');
 const todoList = document.querySelector('.form-output');
+document.addEventListener('DOMContentLoaded', getLocalTodo);
+
 
 todoBtn.addEventListener("click", clickBtn);
 
@@ -17,6 +19,7 @@ function clickBtn(e) {
     </span>`;
     todoDiv.innerHTML = newTodo;
     todoList.appendChild(todoDiv);
+    saveLocalTodo(todoInput.value);
     todoInput.value = "";
 }
 
@@ -32,6 +35,7 @@ function checkTrash(e) {
         todo.classList.toggle('completed');
     } else if (classList[1] === 'fa-trash') {
         const todo = item.parentElement.parentElement;
+        removeLocalTodo(todo);
         todo.remove();
     }
 }
@@ -65,4 +69,34 @@ function filterTodoFunc(e) {
                 break;
         }
     });
+}
+
+function saveLocalTodo(todo) {
+    let savedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
+    savedTodos.push(todo);
+    localStorage.setItem('todos', JSON.stringify(savedTodos));
+}
+
+function getLocalTodo() {
+    let savedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
+    savedTodos.foreach((todo) => {
+        const todoDiv = document.createElement('div');
+        todoDiv.classList.add('todo');
+        const newTodo =
+            `<li>${todo}</li>
+            <span>
+                <i class="fas fa-check-circle" style="color: #63d915;cursor: pointer;"></i>
+                <i class="fas fa-trash" style="margin-left: 9px;color: #db2777;cursor: pointer;"></i>
+            </span>`;
+        todoDiv.innerHTML = newTodo;
+        todoList.appendChild(todoDiv);
+    })
+}
+
+function removeLocalTodo(todo) {
+    let savedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
+    const filteredTodos = savedTodos.filter((todo1) => {
+        todo1 !== todo.children[0].innerext;
+    });
+    localStorage.setItem('todos', JSON.stringify(filteredTodos));
 }
